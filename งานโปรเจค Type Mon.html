@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แนะนำร้านอาหารในแม่สอด</title>
+    <!-- Google Fonts: Prompt & Sarabun -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700&family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #ff4757;
+            --primary-gradient: linear-gradient(135deg, #ff6b81, #ff4757);
+            --primary-glow: rgba(255, 71, 87, 0.4);
+            --secondary: #2ed573;
+            --bg: #f1f2f6;
+            --card-bg: #ffffff;
+            --text-main: #2f3542;
+            --text-sub: #747d8c;
+            --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.05);
+            --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+        }
+
+        body { 
+            font-family: 'Sarabun', sans-serif; 
+            background-color: var(--bg); 
+            color: var(--text-main); 
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, .logo, .nav-links a {
+            font-family: 'Prompt', sans-serif;
+        }
+
+        /* Glassmorphism Navigation Bar */
+        nav { 
+            background: rgba(15, 23, 42, 0.85); 
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            position: fixed; 
+            top: 0; 
+            width: 100%; 
+            z-index: 1000; 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15); 
+        }
+
+        .nav-container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 0 24px; 
+        }
+
+        .logo { 
+            color: #ffffff; 
+            font-size: 1.35rem; 
+            font-weight: 700; 
+            padding: 18px 0; 
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-links { 
+            display: flex; 
+            list-style: none; 
+            gap: 8px;
+        }
+
+        .nav-links li a { 
+            color: #e2e8f0; 
+            text-decoration: none; 
+            padding: 10px 20px; 
+            display: block; 
+            font-weight: 500; 
+            border-radius: 20px;
+            transition: all 0.3s ease; 
+        }
+
+        .nav-links li a:hover { 
+            color: #ffffff; 
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .nav-links li a.active { 
+            color: #ffffff; 
+            background: var(--primary-gradient); 
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        /* General Page Structure */
+        .page { 
+            display: none; 
+            min-height: 100vh; 
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        .page.active { 
+            display: block; 
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            padding: 110px 20px 60px 20px; 
+        }
+
+        /* Page 1: Hero Fullscreen Background */
+        #home {
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0.6) 0%, rgba(15, 23, 42, 0.8) 100%), 
+                        url('https://raw.githubusercontent.com/pankanphakhphumi57-ai/-/refs/heads/main/images%20(15).jfif') no-repeat center center/cover;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-text { 
+            color: white; 
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(8px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+            max-width: 800px;
+            margin: 0 20px;
+        }
+
+        .hero-text h1 { 
+            font-size: 3.8rem; 
+            font-weight: 700;
+            margin-bottom: 15px; 
+            background: linear-gradient(135deg, #ffffff 0%, #f1f2f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            color: #cbd5e1;
+            font-weight: 300;
+        }
+
+        /* Section Titles */
+        .section-title { 
+            text-align: center; 
+            font-size: 2.2rem; 
+            font-weight: 700;
+            color: var(--text-main); 
+            margin-bottom: 40px; 
+            position: relative; 
+            padding-bottom: 12px; 
+        }
+
+        .section-title::after { 
+            content: ''; 
+            width: 80px; 
+            height: 4px; 
+            background: var(--primary-gradient); 
+            position: absolute; 
+            bottom: 0; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            border-radius: 2px;
+            box-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        /* Recommended Menu Cards */
+        .menu-grid { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 30px; 
+        }
+
+        .menu-card { 
+            background: var(--card-bg); 
+            border-radius: 18px; 
+            overflow: hidden; 
+            box-shadow: var(--shadow-soft); 
+            padding: 24px; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-between; 
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1); 
+        }
+
+        .menu-card:hover { 
+            transform: translateY(-8px); 
+            box-shadow: var(--shadow-hover);
+            border-color: rgba(255, 71, 87, 0.2);
+        }
+
+        .img-container {
+            width: 100%;
+            height: 200px;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 18px;
+            position: relative;
+        }
+
+        .menu-card img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            transition: transform 0.5s ease;
+        }
+
+        .menu-card:hover img {
+            transform: scale(1.08);
+        }
+
+        .menu-card h3 { 
+            color: var(--text-main); 
+            font-size: 1.25rem; 
+            font-weight: 600;
+            margin-bottom: 8px; 
+            line-height: 1.4;
+        }
+
+        .time { 
+            color: var(--primary); 
+            font-size: 0.85rem; 
+            margin-bottom: 12px; 
+            font-weight: 600; 
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 71, 87, 0.08);
+            padding: 4px 10px;
+            border-radius: 20px;
+            width: fit-content;
+        }
+
+        .menu-list { 
+            font-size: 0.95rem; 
+            color: var(--text-sub); 
+            list-style: none;
+            margin-bottom: 20px; 
+        }
+
+        .menu-list li {
+            position: relative;
+            padding-left: 18px;
+            margin-bottom: 4px;
+        }
+
+        .menu-list li::before {
+            content: '•';
+            color: var(--primary);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        /* ปุ่มกดดีไซน์พรีเมียมเรืองแสง */
+        .link-btn {
+            position: relative;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            padding: 12px 20px;
+            background: var(--primary-gradient);
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 10px;
+            font-family: 'Prompt', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            box-shadow: 0 4px 15px var(--primary-glow);
+            transition: all 0.3s ease;
+            overflow: hidden;
+            border: none;
+            cursor: pointer;
+            z-index: 1;
+        }
+
+        .link-btn::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                60deg,
+                transparent,
+                rgba(255, 255, 255, 0.4),
+                transparent
+            );
+            transform: rotate(30deg) translateX(-100%);
+            transition: transform 0.6s ease;
+            z-index: 2;
+        }
+
+        .link-btn:hover::before {
+            transform: rotate(30deg) translateX(100%);
+        }
+
+        .link-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 71, 87, 0.6), 0 0 15px rgba(255, 107, 129, 0.5);
+            color: #ffffff;
+        }
+
+        .link-btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 8px var(--primary-glow);
+        }
+
+        /* College Header & Logo Section */
+        .college-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 15px;
+        }
+
+        .institution-logo {
+            height: 110px;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 10px rgba(0,0,0,0.1));
+            transition: transform 0.3s ease;
+        }
+
+        .institution-logo:hover {
+            transform: scale(1.05);
+        }
+
+        .college-info h3 {
+            font-size: 1.5rem;
+            color: var(--text-main);
+            margin-bottom: 4px;
+        }
+
+        /* Team Cards (Creators Page) */
+        .team-grid { 
+            display: flex; 
+            justify-content: center; 
+            gap: 40px; 
+            flex-wrap: wrap; 
+            margin-top: 20px; 
+        }
+
+        .team-card { 
+            background: var(--card-bg); 
+            padding: 35px 25px; 
+            border-radius: 20px; 
+            text-align: center; 
+            box-shadow: var(--shadow-soft); 
+            width: 300px; 
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+
+        .team-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .team-img-wrapper {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 20px auto;
+        }
+
+        .team-img { 
+            width: 100%; 
+            height: 100%; 
+            border-radius: 50%; 
+            object-fit: cover; 
+            border: 4px solid #ffffff;
+            box-shadow: 0 0 20px rgba(0,0,0,0.15);
+        }
+
+        .team-card h3 { 
+            color: var(--text-main); 
+            font-size: 1.25rem; 
+            margin-bottom: 5px;
+        }
+
+        .team-card p {
+            color: var(--text-sub);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .menu-grid { 
+                grid-template-columns: repeat(2, 1fr); 
+            }
+        }
+
+        @media (max-width: 650px) {
+            .hero-text h1 { font-size: 2.4rem; }
+            .hero-text p { font-size: 1rem; }
+            .nav-container { flex-direction: column; padding: 12px 20px; }
+            .logo { padding: 5px 0; }
+            .nav-links { width: 100%; justify-content: center; margin-top: 5px; }
+            .nav-links li a { padding: 8px 14px; font-size: 0.85rem; }
+            .container { padding-top: 150px; }
+            .menu-grid { grid-template-columns: 1fr; }
+            .logo-container { gap: 15px; }
+            .institution-logo { height: 85px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation Bar -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">🍽️ ร้านอร่อยแม่สอด</div>
+            <ul class="nav-links">
+                <li><a href="#" class="active" onclick="switchTab('home', this)">หน้าหลัก</a></li>
+                <li><a href="#" onclick="switchTab('menu', this)">เมนูแนะนำ</a></li>
+                <li><a href="#" onclick="switchTab('creators', this)">ผู้จัดทำ</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- หน้าที่ 1: หน้าหลัก -->
+    <div id="home" class="page active">
+        <div class="hero-text">
+            <h1>แนะนำร้านอาหารในแม่สอด</h1>
+            <p>รวบรวม 10 ร้านเด็ดประจำเมืองแม่สอด พร้อมเมนูยอดฮิตที่ไม่ควรพลาด</p>
+        </div>
+    </div>
+
+    <!-- หน้าที่ 2: เมนูแนะนำ (3 ช่อง/คอลัมน์) -->
+    <div id="menu" class="page">
+        <div class="container">
+            <h2 class="section-title">เมนูแนะนำประจำทั้ง 10 ร้าน</h2>
+            <div class="menu-grid">
+
+                <!-- ร้านที่ 1 -->
+                <div class="menu-card">
+                    <div>
+                        <div class="img-container">
+                            <img src="https://github.com/pankanphakhphumi57-ai/-/blob/main/651340884_1230387765917586_9188221872183685648_n.jpg?raw=true" alt="ร้านก๋วยเตี๋ยวป้าอ็อด">
+                        </div>
+                        <h3>1. ร้านก๋วยเตี๋ยวป้าอ็อดในตำนาน</h3>
+                        <div class="time">⏰ 08:30 - 15:00 น.</div>
+                        <ul class="menu-list">
+                            <li>ก๋วยเตี๋ยวหมูต้มยำโบราณ</li>
+                            <li>เกาเหลาเลือดหมูทรงเครื่อง</li>
+                        </ul>
+                    </div>
+                    <a href="https://www.facebook.com/PaPaiKan1" target="_blank" class="link-btn">เยี่ยมชมเพจร้านก๋วยเตี๋ยวป้าอ็อด</a>
+                </div>
+
+                <!-- ร้านที่ 2 -->
+                <div class="menu-card">
+                    <div>
+                        <div class="img-container">
+                            <img src="https://github.com/pankanphakhphumi57-ai/-/blob/main/caption%20(1).jpg?raw=true" alt="ก๋วยเตี๋ยวไทยป้าจันทร์หอม">
+                        </div>
+                        <h3>2. ก๋วยเตี๋ยวไทยป้าจันทร์หอม</h3>
+                        <div class="time">⏰ 08:00 - 16:00 น.</div>
+                        <ul class="menu-list">
+                            <li>ก๋วยเตี๋ยวไทยต้มยำกุ้งแห้ง</li>
+                            <li>เส้นเล็กแห้งยำโบราณ</li>
+                        </ul>
+                    </div>
+                    <a href="https://th.tripadvisor.com/Restaurant_Review-g317132-d9740010-Reviews-Pa_Homchan_Thai_Noodle-Mae_Sot_Tak_Province.html" target="_blank" class="link-btn">เยี่ยมชมเพจก๋วยเตี๋ยวไทยป้าจันทร์หอม</a>
+                </div>
+
+                <!-- ร้านที่ 3 -->
+                <div class="menu-card">
+                    <div>
+                        <div class="img-container">
+                            <img src="https://github.com/pankanphakhphumi57-ai/-/blob/main/f350528958bd401495b90af723ce77bd.webp?raw=true" alt="สเต็กชาลี โรตีชาชัก">
+                        </div>
+                        <h3>3. สเต็กชาลี โรตีชาชัก</h3>
+                        <div class="time">⏰ 10:00 - 21:00 น.</div>
+                        <ul class="menu-list">
+                            <li>สเต็กพอร์คชอปซอสพริกไทยดำ</li>
+                            <li>โรตีตบเนยนม & ชาชักเย็น</li>
+                        </ul>
+                    </div>
+                    <a href="https://www.facebook.com/SteakChalie" target="_blank" class="link-btn">เยี่ยมชมเพจสเต็กชาลีโรตีชาชัก</a>
+                </div>
+
+                <!-- ร้านที่ 4 -->
+                <div class="menu-card">
+                    <div>
+                        <div class="img-container">
+                            <img src="https://raw.githubusercontent.com/pankanphakhphumi57-ai/-/refs/heads/main/images%20(11).jfif" alt="ตุ๋ยข้าวซอยแม่สอด">
+                        </div>
+                        <h3>4. ตุ๋ยข้าวซอยแม่สอด</h3>
+                        <div class="time">⏰ 08:00 - 15:30 น.</div>
+                        <ul class="menu-list">
+                            <li>ข้าวซอยไก่น่องโต</li>
+                            <li>ข้าวซอยเนื้อเปื่อยทรงเครื่อง</li>
+                        </ul>
+                    </div>
+                    <a href="https://www.facebook.com/profile.php?id=100057864450996&sk=about&locale=th_TH" target="_blank" class="link-btn">เยี่ยมชมเพจตุ๋ยข้าวซอย</a>
+                </div>
+
+                <!-- ร้านที่ 5 -->
+                <div class="menu-card">
+                    <div>
+                        <div class="img-container">
+                            <img src="https://raw.githubusercontent.com/pankanphakhphumi57-ai/-/refs/heads/main/1ed86b06-0007-472e-b907-251774db64d0.jfif" alt="ชาบูหมูตอน Shabu Mooton">
+                        </div>
+                        <h3>5. ชาบูหมูตอน Shabu Mooton</h3>
+                        <div class="time">⏰ 11:00 - 22:00 น.</div>
+                        <ul class="menu-list">
+                            <li>ชุดหมูสไลซ์บุฟเฟต์ซุปดำ</li>
+                            <li>ชุดสามชั้นสไลซ์พรีเมียม</li>
+                        </ul>
+                    </div>
+                    <a href="https://www.facebook.com/chang3703/about/" target="_blank" class="link-btn">เยี่ยมชมเพจร้านชาบูหมูตอน</a>
+                </div>
+
+                <!-- ร้านที่ 6 -->
+                <div class="menu-card">
+                    <div>
+                        <div class="img-container">
+                            <img src="https://raw.githubusercontent.com/pankanphakhphumi57-ai/-/refs/heads/main/images%20(9).jfif" alt="ก๋วยเตี๋ยวบ้านดิน">
+                        </div>
+                        <h3>6. ก๋วยเตี๋ยวบ้านดิน</h3>
+                        <div class="time">⏰ 08:30 - 16:00 น.</div>
+                        <ul class="menu-list">
+                            <li>ก๋วยเตี๋ยวต้มยำไข่ยางมะตอย</li>
+                            <li>ก๋วยเตี๋ยวหมูตุ๋นบ้านดิน</li>
+                        </ul>
+                    </div>
+                    <a href="https://www.facebook.com/KwyteiywBanDin/" target="_blank" class="link-btn">เยี่ยมชมเพจก๋วยเตี๋ยวบ้านดิน</a>
+                </div>
+
+                <!-- ร้านที่ 7 -->
+                <div class="menu-card">
+                    <div>
+                        <div class="img-container">
+                            <img src="https://github.com/pankanphakhphumi57-ai/-/blob/main/475363971_122140242272520195_9082394378816443138_n.jpg?raw=true" alt="โรงชา">
+                        </div>
+                        <h3>7. โรงชา</h3>
+                        <div class="time">⏰ 09:00 - 20:00 น.</div>
+                        <ul class="menu-list">
+                            <li>ชาไทยเย็นสูตรเข้มข้น</li>
+                            <li>ปังเย็นและของทานเล่น</li>
+                        </ul>
+                    </div>
+                    <a href="https://www.facebook.com/profile.php?id=61565605867607&sk=photos" target="_blank" class="link-btn">เยี่ยมชมเพจโรงชา</a>
+                </div>
+
+                <!-- ร้านที่ 8 -->
+                <div class="menu-card">
+                    <div>
+                        <div class="img-container">
+                            <img src="https://github.com/pankanphakhphumi57-ai/-/blob/main/733747119_122108113155334183_7151952944714686179_n.jpg?raw=true" alt="ข้าวซอยกะทิสดแม่สอด">
+                        </div>
+                        <h3>8. ข้าวซอยกะทิสดแม่สอด</h3>
+                        <div class="time">⏰ 07:00 - 17:30 น.</div>
+                        <ul class="menu-list">
+                            <li>ข้าวซอยกะทิสดเนื้อนุ่ม</li>
+                            <li>ขนมจีนน้ำเงี้ยวตำรับเหนือ</li>
+                        </ul>
+                    </div>
+                    <a href="https://www.facebook.com/profile.php?id=61590025491603&sk=photos" target="_blank" class="link-btn">เยี่ยมชมเพจข้าวซอยกะทิสด</a>
+                </div>
+
+                <!-- ร้านที่ 9 -->
+                <div class="menu-card">
+                    <div>
+                        <div class="img-container">
+                            <img src="https://raw.githubusercontent.com/pankanphakhphumi57-ai/-/refs/heads/main/images%20(14).jfif" alt="ทวดนวน">
+                        </div>
+                        <h3>9. ทวดนวน</h3>
+                        <div class="time">⏰ 10:00 - 20:00 น.</div>
+                        <ul class="menu-list">
+                            <li>แกงฮังเลหมูสูตรทวดนวน</li>
+                            <li>ลาบหมูคั่วสไตล์เหนือ</li>
+                        </ul>
+                    </div>
+                    <a href="https://www.facebook.com/tuadnuan/?locale=th_TH" target="_blank" class="link-btn">เยี่ยมชมเพจร้านทวดนวน</a>
+                </div>
+
+                <!-- ร้านที่ 10 -->
+                <div class="menu-card">
+                    <div>
+                        <div class="img-container">
+                            <img src="https://github.com/pankanphakhphumi57-ai/-/blob/main/879a179fff8d43f5a3616de9469966b0.webp?raw=true" alt="ก๋วยเตี๋ยวยิ่งรวย">
+                        </div>
+                        <h3>10. ก๋วยเตี๋ยวยิ่งรวย</h3>
+                        <div class="time">⏰ 08:00 - 16:00 น.</div>
+                        <ul class="menu-list">
+                            <li>ก๋วยเตี๋ยวหมูน้ำตกเข้มข้น</li>
+                            <li>เส้นเล็กต้มยำหมูกรอบ</li>
+                        </ul>
+                    </div>
+                    <a href="https://www.facebook.com/parichartsenpan/?locale=th_TH" target="_blank" class="link-btn">เยี่ยมชมเพจร้านก๋วยเตี๋ยวยิ่งรวย</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- หน้าที่ 3: ผู้จัดทำ -->
+    <div id="creators" class="page">
+        <div class="container">
+            <!-- ส่วนแสดงโลโก้วิทยาลัยและโลโก้แผนก -->
+            <div class="college-header">
+                <div class="logo-container">
+                    <img src="https://github.com/pankanphakhphumi57-ai/-/blob/main/images__16_-removebg-preview.png?raw=true" alt="โลโก้วิทยาลัยเทคนิคแม่สอด" class="institution-logo">
+                    <img src="https://github.com/pankanphakhphumi57-ai/-/blob/main/09eb1a7c-c309-483c-99ae-4fbbd5e19e53-removebg-preview.png?raw=true" alt="โลโก้แผนก" class="institution-logo">
+                </div>
+                <div class="college-info">
+                    <h3>วิทยาลัยเทคนิคแม่สอด</h3>
+                </div>
+            </div>
+
+            <h2 class="section-title">คณะผู้จัดทำ</h2>
+            <div class="team-grid">
+                <!-- ผู้จัดทำคนที่ 1 -->
+                <div class="team-card">
+                    <div class="team-img-wrapper">
+                        <img src="https://raw.githubusercontent.com/pankanphakhphumi57-ai/-/refs/heads/main/fbdc67d5-e4e8-48fc-9fd5-14558857b947.jfif" alt="นายภาคภูมิ ปันกัน" class="team-img">
+                    </div>
+                    <h3>นายภาคภูมิ ปันกัน</h3>
+                    <p>ผู้จัดทำคนที่ 1</p>
+                </div>
+
+                <!-- ผู้จัดทำคนที่ 2 -->
+                <div class="team-card">
+                    <div class="team-img-wrapper">
+                        <img src="https://raw.githubusercontent.com/pankanphakhphumi57-ai/-/refs/heads/main/2792d933-4c13-46fd-ad10-886ada354fe4.jfif" alt="นายม่อเทเล" class="team-img">
+                    </div>
+                    <h3>นายม่อเทเล</h3>
+                    <p>ผู้จัดทำคนที่ 2</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script สำหรับสลับหน้า -->
+    <script>
+        function switchTab(pageId, element) {
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+
+            document.getElementById(pageId).classList.add('active');
+
+            const navLinks = document.querySelectorAll('.nav-links a');
+            navLinks.forEach(link => link.classList.remove('active'));
+            element.classList.add('active');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
